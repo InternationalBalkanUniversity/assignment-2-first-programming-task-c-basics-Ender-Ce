@@ -10,14 +10,14 @@ int main() {
     string studyProgram;
 
     // TODO: Ask user for input
-    cout << "Enter your full name: ";
+    cout << "Ender Aray: ";
     getline(cin, fullName);
 
-    cout << "Enter your age: ";
+    cout << "20: ";
     cin >> age;
     cin.ignore(); // Ignore leftover newline
 
-    cout << "Enter your study program: ";
+    cout << "Computer Engineering: ";
     getline(cin, studyProgram);
 
     // TODO: Display the information
