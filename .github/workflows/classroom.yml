@@ -1,0 +1,35 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Basic I/O Test
+      id: basic-i-o-test
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Basic I/O Test
+        setup-command: g++ -std=c++17 main.cpp -o main
+        command: echo -e "John Doe\n19\nComputer Engineering" | ./main > output.txt
+          grep -q "John Doe" output.txt || exit 1 grep -q "19" output.txt || exit
+          1 grep -q "Computer Engineering" output.txt || exit 1 echo "All tests passed"
+        input: ''
+        expected-output: ''
+        comparison-method: contains
+        timeout: 5
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        BASIC-I-O-TEST_RESULTS: "${{steps.basic-i-o-test.outputs.result}}"
+      with:
+        runners: basic-i-o-test
